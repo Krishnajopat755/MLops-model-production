@@ -19,7 +19,7 @@ import logging
 import shutil
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 from src.artifact.contract import ModelManifest
 from src.artifact.loader import ArtifactLoader
@@ -70,7 +70,7 @@ class LocalRegistry:
         hf = self._history_file(model_name)
         if hf.exists():
             with open(hf) as f:
-                return json.load(f)
+                return cast(list[dict[str, Any]], json.load(f))
         return []
 
     def _save_history(self, model_name: str, history: list[dict[str, Any]]) -> None:
@@ -127,7 +127,7 @@ class LocalRegistry:
             raise FileNotFoundError(f"No champion set for {model_name}")
         with open(cf) as f:
             data = json.load(f)
-        return data["version"]
+        return str(data["version"])
 
     def get_version_path(self, model_name: str, version: str) -> Path:
         """Get the filesystem path for a specific version."""
@@ -206,7 +206,7 @@ class LocalRegistry:
             previous,
             {"rolled_back_from": current},
         )
-        return previous
+        return str(previous)
 
     def list_versions(self, model_name: str) -> list[str]:
         """List all registered versions."""

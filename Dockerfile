@@ -10,11 +10,11 @@ WORKDIR /app
 FROM base AS builder
 
 COPY pyproject.toml ./
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir .
-
 COPY src/ ./src/
 COPY configs/ ./configs/
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir .
 
 # ── Stage 3: Test ────────────────────────────────────────────────────────────
 FROM builder AS test
@@ -32,13 +32,12 @@ RUN groupadd --gid 1001 appuser && \
 
 # Install production dependencies only
 COPY pyproject.toml ./
+COPY --from=builder /app/src/ ./src/
+COPY --from=builder /app/configs/ ./configs/
+
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir . && \
     pip cache purge
-
-# Copy source and required assets
-COPY --from=builder /app/src/ ./src/
-COPY --from=builder /app/configs/ ./configs/
 
 # Create model/data directories
 RUN mkdir -p models data reference reports && \
