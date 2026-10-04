@@ -1,0 +1,31 @@
+services:
+  api:
+    build:
+      context: .
+      target: runtime
+    ports:
+      - "8000:8000"
+    environment:
+      - MLOPS_MODEL_DIR=/app/models
+      - MLOPS_MODEL_NAME=credit-card-fraud
+      - MLOPS_DEBUG=false
+    volumes:
+      - ./models:/app/models:ro
+      - ./data:/app/data:ro
+      - ./reference:/app/reference:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; r = httpx.get('http://localhost:8000/health/live'); exit(0 if r.status_code == 200 else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+
+  # Optional MLflow tracking
+  # mlflow:
+  #   image: ghcr.io/mlflow/mlflow:latest
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     - MLFLOW_BACKEND_STORE_URI=sqlite:///mlflow.db
+  #   command: mlflow server --host 0.0.0.0 --port 5000

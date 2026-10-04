@@ -1,0 +1,62 @@
+name: Retrain
+
+on:
+  workflow_dispatch:
+    inputs:
+      trigger_reason:
+        description: "Reason for retraining"
+        required: true
+        default: "manual"
+        type: choice
+        options:
+          - manual
+          - drift
+          - scheduled
+          - experiment
+  schedule:
+    - cron: "0 2 * * 0"  # Weekly Sunday 2am UTC
+
+concurrency:
+  group: model-promotion
+  cancel-in-progress: false
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e .
+      - name: Retrain model
+        run: |
+          python -c "
+          from src.retraining.pipeline import RetrainingPipeline
+          from src.registry.local_registry import LocalRegistry
+          from src.config import RetrainTrigger, get_settings
+          settings = get_settings()
+          registry = LocalRegistry(settings.model_dir)
+          pipeline = RetrainingPipeline(registry, settings)
+          result = pipeline.retrain(
+              config_path='configs/credit_card_fraud.yaml',
+              data_path='data/creditcard.csv',
+              trigger=RetrainTrigger.MANUAL,
+          )
+          print(result)
+          "
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: retrain-artifacts
+          path: models/
+
+  promote:
+    needs: retrain
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Promote candidate
+        run: echo "Promotion handled in retrain step — controlled by environment approval"

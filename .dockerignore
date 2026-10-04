@@ -1,0 +1,41 @@
+# Git
+.git/
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Environment
+.env
+.env.*
+*.env
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Tests (excluded from runtime image)
+tests/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Local caches
+.cache/
+*.log
+
+# Reports (generated at runtime)
+reports/
