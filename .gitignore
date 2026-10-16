@@ -36,12 +36,15 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Data (tracked via DVC or manual)
+# Data (tracked via DVC or manual; sample inference tracked for CI)
 data/*.csv
 data/*.parquet
+!data/recent_inference.parquet
+!data/.gitkeep
 
-# Model artifacts (tracked via registry)
-models/*/
+# Model artifacts (champion tracked; candidates and temp ignored)
+models/_candidates/
+models/**/*.tmp
 !models/.gitkeep
 
 # Reports (generated)

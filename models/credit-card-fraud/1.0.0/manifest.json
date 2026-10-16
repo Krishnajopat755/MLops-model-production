@@ -1,0 +1,27 @@
+{
+  "model_name": "credit-card-fraud",
+  "model_version": "1.0.0",
+  "training_run_id": "fd9d708d-b537-4505-ab7f-dfa60f8962e8",
+  "git_sha": "unknown",
+  "config_sha256": "eddeae8b78ed5cc5773bd1fe9e63eaf620a2afc8893426d27b188327e30b291f",
+  "dataset_fingerprint": "ea9901d167b85eff",
+  "feature_schema_version": "1",
+  "algorithm": "random_forest",
+  "metrics": {
+    "accuracy": 0.9994908886626171,
+    "precision": 0.896551724137931,
+    "recall": 0.7959183673469388,
+    "f1_score": 0.8432432432432433,
+    "roc_auc": 0.9695002684529073
+  },
+  "trained_at": "2026-10-03T20:26:31.865362+00:00",
+  "artifact_files": [
+    "model.joblib",
+    "metrics.json",
+    "feature_schema.json",
+    "training_config.yaml",
+    "evaluation.json",
+    "reference_data.parquet",
+    "manifest.json"
+  ]
+}

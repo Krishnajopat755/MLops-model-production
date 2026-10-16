@@ -1,0 +1,24 @@
+algorithm: random_forest
+data_path: data/creditcard.csv
+drop_columns:
+- Time
+feature_columns: null
+model_name: credit-card-fraud
+model_params:
+  class_weight: balanced
+  max_depth: 15
+  min_samples_leaf: 2
+  min_samples_split: 5
+  n_estimators: 100
+  n_jobs: -1
+  random_state: 42
+model_version: 1.0.0
+primary_metric: f1_score
+random_state: 42
+secondary_metrics:
+- precision
+- recall
+- roc_auc
+- accuracy
+target_column: Class
+test_size: 0.2

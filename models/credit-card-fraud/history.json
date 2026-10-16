@@ -1,0 +1,18 @@
+[
+  {
+    "event": "REGISTER",
+    "model_name": "credit-card-fraud",
+    "version": "1.0.0",
+    "timestamp": "2026-10-03T20:26:32.058663+00:00",
+    "details": {}
+  },
+  {
+    "event": "PROMOTE",
+    "model_name": "credit-card-fraud",
+    "version": "1.0.0",
+    "timestamp": "2026-10-03T20:26:32.155738+00:00",
+    "details": {
+      "previous_version": null
+    }
+  }
+]

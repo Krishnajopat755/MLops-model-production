@@ -19,7 +19,7 @@ jobs:
           python-version: "3.11"
       - run: pip install -e .
       - name: Run drift check
-        run: python -m src.monitoring.drift
+        run: python -m src.monitoring.drift --current data/recent_inference.parquet
       - name: Upload drift report
         if: always()
         uses: actions/upload-artifact@v4

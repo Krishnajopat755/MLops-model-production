@@ -1,0 +1,154 @@
+{
+  "features": [
+    {
+      "name": "V1",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V2",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V3",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V4",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V5",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V6",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V7",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V8",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V9",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V10",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V11",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V12",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V13",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V14",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V15",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V16",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V17",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V18",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V19",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V20",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V21",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V22",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V23",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V24",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V25",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V26",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V27",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "V28",
+      "type": "float64",
+      "required": true
+    },
+    {
+      "name": "Amount",
+      "type": "float64",
+      "required": true
+    }
+  ],
+  "target": {
+    "name": "Class",
+    "type": "int64"
+  },
+  "version": "1"
+}
