@@ -39,8 +39,28 @@ logger = logging.getLogger(__name__)
 
 # ── Data loading ─────────────────────────────────────────────────────────────
 def load_dataset(data_path: str | Path) -> pd.DataFrame:
-    """Load the credit card fraud CSV."""
-    df = pd.read_csv(data_path)
+    """Load the credit card fraud dataset."""
+    path = Path(data_path)
+    if not path.exists():
+        fallbacks = [
+            Path("data/creditcard_sample.csv"),
+            Path("data/creditcard.csv"),
+            Path("data/recent_inference.parquet"),
+        ]
+        for fb in fallbacks:
+            if fb.exists():
+                logger.info("Dataset '%s' not found; using fallback '%s'", path, fb)
+                path = fb
+                break
+
+    if not path.exists():
+        raise FileNotFoundError(
+            f"Dataset not found at '{data_path}'. "
+            "Please provide a valid dataset path or place 'data/creditcard_sample.csv'."
+        )
+
+    df = pd.read_parquet(path) if str(path).endswith(".parquet") else pd.read_csv(path)
+
     logger.info("Loaded dataset: %d rows, %d columns", len(df), len(df.columns))
     return df
 
@@ -225,6 +245,8 @@ def train_model(
     reference_data["_prediction"] = pipeline.predict(X_train)
     if hasattr(pipeline, "predict_proba"):
         reference_data["_probability"] = pipeline.predict_proba(X_train)[:, 1]
+    if len(reference_data) > 5000:
+        reference_data = reference_data.sample(n=5000, random_state=42)
     ref_path = output_dir / "reference_data.parquet"
     reference_data.to_parquet(ref_path, index=False)
 

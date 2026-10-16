@@ -31,18 +31,28 @@ jobs:
           python-version: "3.11"
       - run: pip install -e .
       - name: Retrain model
+        env:
+          TRIGGER_REASON: ${{ inputs.trigger_reason || 'scheduled' }}
         run: |
           python -c "
+          import os
+          from pathlib import Path
           from src.retraining.pipeline import RetrainingPipeline
           from src.registry.local_registry import LocalRegistry
           from src.config import RetrainTrigger, get_settings
+
           settings = get_settings()
           registry = LocalRegistry(settings.model_dir)
           pipeline = RetrainingPipeline(registry, settings)
+
+          data_file = 'data/creditcard.csv' if Path('data/creditcard.csv').exists() else 'data/creditcard_sample.csv'
+          raw_trigger = os.environ.get('TRIGGER_REASON', 'manual').upper()
+          trigger = RetrainTrigger[raw_trigger] if raw_trigger in RetrainTrigger.__members__ else RetrainTrigger.MANUAL
+
           result = pipeline.retrain(
               config_path='configs/credit_card_fraud.yaml',
-              data_path='data/creditcard.csv',
-              trigger=RetrainTrigger.MANUAL,
+              data_path=data_file,
+              trigger=trigger,
           )
           print(result)
           "

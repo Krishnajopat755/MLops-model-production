@@ -78,12 +78,27 @@ class RetrainingPipeline:
 
         candidate_dir = Path(self.settings.model_dir) / "_candidates" / candidate_version
 
+        # Resolve data path fallback if primary does not exist
+        resolved_data = Path(data_path)
+        if not resolved_data.exists():
+            for fallback in [
+                Path("data/creditcard_sample.csv"),
+                Path("data/creditcard.csv"),
+                Path("data/recent_inference.parquet"),
+            ]:
+                if fallback.exists():
+                    logger.info(
+                        "Dataset '%s' not found; using fallback '%s'", resolved_data, fallback
+                    )
+                    resolved_data = fallback
+                    break
+
         # ── Step 1: Train using existing ml-research ─────────────────────
         logger.info("Step 1: Training candidate %s...", candidate_version)
         train_result = train_model(
             config_path=config_path,
             output_dir=candidate_dir,
-            data_path=data_path,
+            data_path=resolved_data,
         )
 
         # ── Step 2: Validate candidate ───────────────────────────────────
@@ -230,7 +245,7 @@ class RetrainingPipeline:
             "delta": round(candidate_value - champion_value, 4),
             "reason": (
                 f"Candidate {metric_name}={candidate_value:.4f} "
-                f"{'≥' if passes else '<'} threshold={threshold:.4f} "
+                f"{'>=' if passes else '<'} threshold={threshold:.4f} "
                 f"(champion={champion_value:.4f} * {1 - tolerance:.2f})"
             ),
         }

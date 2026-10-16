@@ -36,9 +36,10 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Data (tracked via DVC or manual; sample inference tracked for CI)
+# Data (tracked via DVC or manual; sample datasets tracked for CI)
 data/*.csv
 data/*.parquet
+!data/creditcard_sample.csv
 !data/recent_inference.parquet
 !data/.gitkeep
 
